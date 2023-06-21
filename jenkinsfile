@@ -27,6 +27,9 @@ pipeline {
 			            sleep 1
                     fi
 		docker rm flask-app
+		else
+		sleep 1
+		fi
                '''
             }
         }
