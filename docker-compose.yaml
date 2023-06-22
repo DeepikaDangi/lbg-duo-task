@@ -1,28 +1,22 @@
-version: "3.7"
+version: "3.8"
 services:
-  chaperoo-client:
-    image: jordangrindrod/chaperoo-client
+  flask-app:
+    image: duo-app:v2
     build: .
-    ports:
-      - target: 80
-        published: 80
-    depends_on:
-      - chaperoo-service
-    networks:
-      - chaperoo-net   
-  chaperoo-service: 
-    image: jordangrindrod/chaperoo-service
-    environment:
-      - DB_PASSWORD=${DB_PASSWORD}
-    depends_on: 
-      - chaperoo-db
-    networks:
-      - chaperoo-net
     deploy:
       replicas: 3
-  chaperoo-db:
-    image: jordangrindrod/chaperoo-db
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
     networks:
-      - chaperoo-net
+      - duo-net
+  nginx:    
+    image: nginx:alpine
+    networks:
+      - duo-net
+    ports:
+    - target: 80
+    published: 80
+    volume:
+    - type: bind
+    source: ./nginx.conf
+    target: /etc/nginx/nginx.conf
+   networks:
+   - duo-net:
