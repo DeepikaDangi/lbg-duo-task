@@ -7,16 +7,16 @@ services:
       replicas: 3
     networks:
       - duo-net
-  nginx:    
+  nginx:
     image: nginx:alpine
     networks:
       - duo-net
     ports:
-    - target: 80
-    published: 80
-    volume:
-    - type: bind
-    source: ./nginx.conf
-    target: /etc/nginx/nginx.conf
-   networks:
-   - duo-net:
+      - target: 80
+        published: 80
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+networks:
+  duo-net:
